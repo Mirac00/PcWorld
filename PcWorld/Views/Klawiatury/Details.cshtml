@@ -1,0 +1,41 @@
+﻿@model PcWorld.Models.Klawiatury
+
+<h2>Szczegóły i komentarze dla klawiatury @Model.Nazwa</h2>
+<div>
+    <h4>Nazwa:</h4>
+    <p>@Model.Nazwa</p>
+</div>
+<div>
+    <h4>Opis:</h4>
+    <p>@Model.Opis</p>
+</div>
+<div>
+    <h4>Kategoria:</h4>
+    <p>@Model.Kategoria</p>
+</div>
+<div>
+    <h4>Cena:</h4>
+    <p>@Model.Cena</p>
+</div>
+<div>
+    <h4>Średnia ocena użytkowników:</h4>
+    <p>@Model.Ocena</p>
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div>
+        <h4>Dodaj komentarz:</h4>
+        <form method="post">
+    <textarea name="text"></textarea>
+            <input type="submit" value="Dodaj" />
+        </form>
+    </div>
+}
+
+<h4>Lista komentarzy:</h4>
+<ul>
+    @foreach (var comment in Model.Komentarze)
+    {
+        <li>@comment.Tekst</li>
+    }
+</ul>

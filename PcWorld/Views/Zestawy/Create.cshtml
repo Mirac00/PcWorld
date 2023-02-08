@@ -1,0 +1,45 @@
+﻿@model PcWorld.Models.Zestaw
+
+@{
+    ViewBag.Title = "Dodaj nowy zestaw";
+}
+
+<h2>Dodaj nowy zestaw</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Nazwa_Zestawu"></label>
+        <input asp-for="Nazwa_Zestawu" class="form-control" />
+        <span asp-validation-for="Nazwa_Zestawu" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Opis"></label>
+        <textarea asp-for="Opis" class="form-control"></textarea>
+        <span asp-validation-for="Opis" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Kategoria"></label>
+        <select asp-for="Kategoria" asp-items="@ViewBag.Categories">
+        </select>
+        <span asp-validation-for="Kategoria" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Klawiatura"></label>
+        <select asp-for="Klawiatura" asp-items="@ViewBag.Keyboards">
+        </select>
+        <span asp-validation-for="Klawiatura" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Mysz"></label>
+        <select asp-for="Mysz" asp-items="@ViewBag.Mice">
+        </select>
+        <span asp-validation-for="Mysz" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Dodaj nowy zestaw" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Wróć do listy zestawów</a>
+</div>

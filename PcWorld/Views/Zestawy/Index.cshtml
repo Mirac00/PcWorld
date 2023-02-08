@@ -1,0 +1,70 @@
+﻿@model IEnumerable<PcWorld.Models.Zestawy>
+
+<h2>Zestawy</h2>
+
+<p>
+    <a asp-action="Create">Dodaj nową pozycję</a>
+</p>
+
+<form asp-action="Index">
+    <div class="form-group">
+        <label asp-for="SearchString"></label>
+        <input asp-for="SearchString" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="SortOrder"></label>
+        <select asp-for="SortOrder" asp-items="Model.SortOrders">
+            <option value="">Sortuj po...</option>
+        </select>
+    </div>
+    <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                Średnia ocena
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                    [@Html.DisplayFor(modelItem => item.Klawiatury.Name) + @Html.DisplayFor(modelItem => item.Myszki.Name)]
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Oceny.Average())
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID">Szczegóły i komentarze</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

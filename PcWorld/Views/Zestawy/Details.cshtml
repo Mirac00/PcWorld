@@ -1,0 +1,49 @@
+﻿@model PcWorld.Models.Zestawy
+
+<h2>Szczegóły i komentarze</h2>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <th>Nazwa</th>
+                <td>@Model.Nazwa</td>
+            </tr>
+            <tr>
+                <th>Opis</th>
+                <td>@Model.Opis</td>
+            </tr>
+            <tr>
+                <th>Kategoria</th>
+                <td>@Model.Kategoria</td>
+            </tr>
+            <tr>
+                <th>Cena</th>
+                <td>@Model.Cena</td>
+            </tr>
+            <tr>
+                <th>Ocena</th>
+                <td>@Model.Ocena</td>
+            </tr>
+            <tr>
+                <th>Klawiatura</th>
+                <td>@Model.Klawiatura.Nazwa</td>
+            </tr>
+            <tr>
+                <th>Myszka</th>
+                <td>@Model.Myszka.Nazwa</td>
+            </tr>
+        </table>
+    </div>
+</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <h3>Dodaj komentarz</h3>
+    using (Html.BeginForm("AddComment", "Zestawy", FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Komentarz, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Komentarz, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <button type="submit" class="btn btn-primary">Dodaj</button>
+    }
+}
