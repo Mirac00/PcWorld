@@ -1,31 +1,36 @@
-﻿@model IEnumerable<PcWorld.Models.Klawiatury>
+﻿@model IEnumerable<PcWord.Models.Keyboard>
 
 <h2>Klawiatury</h2>
+
 <p>
-    <a href="@Url.Action("Create", "Klawiatury")">Dodaj nową pozycję</a>
+    <a asp-action="Create">Dodaj nową pozycję</a>
 </p>
-<form action="">
+
+<form asp-action="Index">
     <div class="form-group">
-        <label for="search">Wyszukaj pozycję:</label>
-        <input type="text" id="search" name="search" value="@ViewBag.CurrentFilter" />
+        <label for="searchTerm">Szukaj po nazwie:</label>
+        <input type="text" id="searchTerm" name="searchTerm" value="@ViewData["CurrentFilter"]" />
         <input type="submit" value="Szukaj" />
     </div>
 </form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                <a href="@Url.Action("Index", "Klawiatury", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter})">Nazwa</a>
-            </th>
-            <th>Opis</th>
-            <th>
-                <a href="@Url.Action("Index", "Klawiatury", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter})">Kategoria</a>
+                @Html.ActionLink("Nazwa", "Index", new { sortOrder = ViewData["NameSort"] == "Name" ? "Name_desc" : "Name" })
             </th>
             <th>
-                <a href="@Url.Action("Index", "Klawiatury", new { sortOrder = ViewBag.PriceSortParm, currentFilter = ViewBag.CurrentFilter})">Cena</a>
+                @Html.ActionLink("Opis", "Index", new { sortOrder = ViewData["DescriptionSort"] == "Description" ? "Description_desc" : "Description" })
             </th>
             <th>
-                <a href="@Url.Action("Index", "Klawiatury", new { sortOrder = ViewBag.RatingSortParm, currentFilter = ViewBag.CurrentFilter})">Średnia ocena</a>
+                @Html.ActionLink("Kategoria", "Index", new { sortOrder = ViewData["CategorySort"] == "Category" ? "Category_desc" : "Category" })
+            </th>
+            <th>
+                @Html.ActionLink("Cena", "Index", new { sortOrder = ViewData["PriceSort"] == "Price" ? "Price_desc" : "Price" })
+            </th>
+            <th>
+                Średnia ocena
             </th>
             <th></th>
         </tr>
@@ -34,13 +39,35 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Nazwa)</td>
-                <td>@Html.DisplayFor(modelItem => item.Opis)</td>
-                <td>@Html.DisplayFor(modelItem => item.Kategoria.Nazwa)</td>
-                <td>@Html.DisplayFor(modelItem => item.Cena)</td>
-                <td>@Html.DisplayFor(modelItem => item.Oceny.Average(ocena => ocena.Wartość))</td>
                 <td>
-                    <a href="@Url.Action("Details", "Klawiatury", new { id = item.Id})">Szczegóły i komentarze</a>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @if (item.Ratings.Count() > 0)
+                    {
+                        @(item.Ratings.Average(r => r.Value))
+                    }
+                    else
+                    {
+                        Brak ocen
+                    }
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Rate" asp-route-id="@item.Id">Oceń</a>
+                    |
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły i komentarze</a>
                 </td>
             </tr>
         }
